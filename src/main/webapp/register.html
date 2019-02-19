@@ -82,10 +82,19 @@
             $(function () {
                 //当表单提交时，调用所有的校验方法
                 $("#registerForm").submit(function(){
+                    //1.发送数据到服务器
+                    if(checkUsername() && checkPassword() && checkEmail()){
+                        //校验通过,发送ajax请求，提交表单的数据   username=zhangsan&password=123
 
-                    return checkUsername() && checkPassword() && checkEmail();
-                    //如果 校验的方法 没有返回值，或者返回为true，则表单提交，如果返回为false，则表单不提交
+                        $.post("registUserServlet",$(this).serialize(),function(data){ // this 是 js 对象，转换为 jQuery 对象，调用 serialize()方法，将数据转换为 key:value 形式
+                            //处理服务器响应的数据  data
 
+                        });
+
+                    }
+                    //2.不让页面跳转
+                    return false;
+                    //如果这个方法没有返回值，或者返回为true，则表单提交，如果返回为false，则表单不提交
                 });
 
                 //当某一个组件失去焦点是，调用对应的校验方法
